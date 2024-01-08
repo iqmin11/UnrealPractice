@@ -14,6 +14,8 @@ class OBSTACLEASSAULT_API AMovingPlatform : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AMovingPlatform();
+	
+
 
 protected:
 	// Called when the game starts or when spawned
@@ -23,13 +25,26 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere)
-	int32 MyInt = 99;
+private:
+
+	UPROPERTY(EditAnywhere, Category = "Moving")
+	FVector PlatformVelocity = FVector(100, 0, 0);
+
+	UPROPERTY(EditAnywhere, Category = "Moving")
+	FRotator RotationVelocity = FRotator(0, 0, 0);
+
+	UPROPERTY(VisibleAnywhere)
+	FVector StartLocation;
 
 	UPROPERTY(EditAnywhere)
-	float Myfloat = 0.01f;
+	float MoveDistance = 100;
 
-	UPROPERTY(EditAnywhere)
-	bool Myboolean = true;
-
+	void MovePlatform(float DeltaTime);
+	void RotatePlatform(float DeltaTime);
+	
+	bool ShouldPlatformReturn() const;
+	float GetDistanceMoved() const
+	{
+		return FVector::Dist(StartLocation, GetActorLocation());
+	}
 };
